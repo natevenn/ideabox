@@ -4,6 +4,7 @@ $(document).ready(function() {
 
     $('.save-btn').click(function() {
         CreateIdea()
+        clearForm()
     })
 })
 
@@ -23,11 +24,13 @@ function CreateIdea(){
 function displayAllIdeas(){
     var target = $('.idea-list')
     $.getJSON('/api/v1/ideas.json', function(ideas) {
-        $(ideas).each(function(index, idea){
+        $(ideas).sort(function(a, b){
+            a.id - b.id
+        }).each(function(index, idea) {
             renderIdea(idea)
         })
-    })
 
+    })
 }
 
 var ideaQuality = { 0:'swill', 1:'plausible', 2:'ganius' }
@@ -44,4 +47,9 @@ function renderIdea(idea){
             + ideaQuality[idea.quality]
             + '</h4></p>'
            )
+}
+
+function clearForm(){
+    $('#title').val('')
+    $('#body').val('')
 }

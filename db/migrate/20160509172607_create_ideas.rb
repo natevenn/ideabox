@@ -4,6 +4,8 @@ class CreateIdeas < ActiveRecord::Migration
       t.string :title
       t.string :body
       t.integer :quality
+
+      t.timestamp null: false
     end
   end
 end
