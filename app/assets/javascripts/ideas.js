@@ -78,8 +78,8 @@ function CreateIdea(){
 function displayAllIdeas(){
     var target = $('.idea-list');
     $.getJSON('/api/v1/ideas.json', function(ideas) {
-        $(ideas).sort(function(a, b){
-            a.id - b.id
+        var sorted = $(ideas).sort(function(a, b){
+        return a.id - b.id
         }).each(function(index, idea) {
             renderIdea(idea);
         })
@@ -121,7 +121,6 @@ function deleteIdea(event) {
         }
     });
 }
-
 
 function clearForm(){
     $('#title').val('');
