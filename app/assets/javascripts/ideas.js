@@ -1,6 +1,7 @@
 $(document).ready(function() {
 
-    displayAllIdeas()
+    displayAllIdeas();
+    showSearchedIdeas();
 
     $('.save-btn').click(function() {
         CreateIdea();
@@ -14,6 +15,20 @@ $(document).ready(function() {
     $('body').on('click', '.ideas .title', editTitle);
 
 });
+
+function showSearchedIdeas() {
+    $('#search').keyup(function() {
+        var thisVal = $(this).val().toLowerCase();
+        filterSearch(thisVal)
+    });
+}
+
+function filterSearch(thisVal) {
+    $('.ideas').each(function() {
+        var text = $(this).text().toLowerCase();
+        (text.indexOf(thisVal) == 0) ? $(this).show() : $(this).hide();
+    });
+}
 
 function editTitle(){
     thisElement = $(this)
@@ -134,13 +149,13 @@ function renderIdea(idea){
             + idea.id
             + '><h4 class=title contentEditable=true>'
             + idea.title
-            + '</h4><h4 class=body contentEditable=true>'
+            + '</h4><h5 class=body contentEditable=true>'
             + idea.body
-            + '</h4><h4 class=quality id='
+            + '</h5><h3 class=quality id='
             + idea.quality
             + '>'
             + ideaQuality[idea.quality]
-            + '</h4><a class=delete-idea href=#>Delete</a>'
+            + '</h3><a class=delete-idea href=#>Delete</a>'
             + '<a class=thumbs-up href=#><img src=https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBJrRjKqgwEwEekl1BXhAOsbNqcrJ8TeWlne71cdIIEqQ9lcEmvA alt=thumbs up id=up-vote style=width:20px;heigth:20px;></a>'
             + '<a class=thumbs-down href=#><img src=https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSkv6tro4-yZk3dKpYCoLLnnIKUMbnMI7IaVf2n0GHrf9uCksul alt=thumbs down id=down-vote style=width:20px;heigth:20px;></a></div>'
            );
