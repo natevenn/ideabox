@@ -10,30 +10,58 @@ $(document).ready(function() {
     $('body').on('click', 'a.delete-idea', deleteIdea);
     $('body').on('click', 'a.thumbs-up', thumbsUpIdea);
     $('body').on('click', 'a.thumbs-down', thumbsDownIdea);
+    $('body').on('click', '.ideas .body', editBody);
+    $('body').on('click', '.ideas .title', editTitle);
 
-    $('.editable').on('click', function() {
-        if(event.keyCode == 13) {
-        event.preventDefault();
-            console.log('it is editable')
-        }
-    })
 });
+
+function editTitle(){
+    thisElement = $(this)
+    $(this).keydown(function(event) {
+        if(event.keyCode === 13) {
+            event.preventDefault()
+            var thisElement = $(this)
+            toggleContentEditableFalse(thisElement)
+            var newTitle = $(this).text()
+            var ideaId   = $(this).parents().attr('id')
+            var params   = { idea: { title: newTitle } }
+            updateIdeasTable(ideaId, params)
+        }
+    }).then(toggleContentEditableTrue(thisElement))
+}
+
+function editBody() {
+    thisElement = $(this)
+    $(this).keypress(function(event) {
+        if(event.keyCode == 13) {
+            event.preventDefault()
+            var thisElement = $(this)
+            toggleContentEditableFalse(thisElement)
+            var newBody = $(this).text()
+            var ideaId   = $(this).parents().attr('id')
+            var params   = { idea: { body: newBody } }
+            updateIdeasTable(ideaId, params)
+        }
+    }).then(toggleContentEditableTrue(thisElement))
+}
+
+function toggleContentEditableFalse() {
+    $(thisElement).attr('contentEditable', 'false')
+}
+
+function toggleContentEditableTrue(thisElement) {
+    $(thisElement).attr('contentEditable', 'true')
+}
+
 
 function thumbsUpIdea(event) {
     event.preventDefault();
    var ideaId = $(this).parent('.ideas').attr('id');
    var oldQuality = $(this).siblings('.quality').attr('id');
    var newQuality = increaseQuality(oldQuality);
-   var putsParams = { id: ideaId, quality: newQuality }
-   $.ajax({
-       url: '/api/v1/ideas/' + ideaId + '.json',
-       method: 'PUT',
-       dataType: 'json',
-       data: putsParams,
-       success: function() {
-           renderQuality(ideaId, newQuality);
-       }
-   });
+   var params = { idea: { quality: newQuality } }
+   updateIdeasTable(ideaId, params)
+   renderQuality(ideaId, newQuality);
 }
 
 function thumbsDownIdea(event) {
@@ -41,14 +69,19 @@ function thumbsDownIdea(event) {
    var ideaId = $(this).parent('.ideas').attr('id');
    var oldQuality = $(this).siblings('.quality').attr('id');
    var newQuality = decreaseQuality(oldQuality);
-   var putsParams = { id: ideaId, quality: newQuality }
+   var params = { idea: { quality: newQuality } }
+   updateIdeasTable(ideaId, newQuality, params)
+   renderQuality(ideaId, newQuality);
+}
+
+function updateIdeasTable(ideaId, params){
    $.ajax({
        url: '/api/v1/ideas/' + ideaId + '.json',
        method: 'PUT',
        dataType: 'json',
-       data: putsParams,
+       data: params,
        success: function() {
-           renderQuality(ideaId, newQuality);
+           console.log('success')
        }
    });
 }
@@ -83,7 +116,6 @@ function CreateIdea(){
 }
 
 function displayAllIdeas(){
-    debugger;
     var target = $('.idea-list');
     $.getJSON('/api/v1/ideas.json', function(ideas) {
         var sorted = $(ideas).sort(function(a, b){
@@ -100,9 +132,9 @@ function renderIdea(idea){
     $('.idea-list')
     .prepend('<div class=ideas id='
             + idea.id
-            + '><h4 class=editable contentEditable=true>'
+            + '><h4 class=title contentEditable=true>'
             + idea.title
-            + '</h4><h4 class=editable contentEditable=true>'
+            + '</h4><h4 class=body contentEditable=true>'
             + idea.body
             + '</h4><h4 class=quality id='
             + idea.quality
