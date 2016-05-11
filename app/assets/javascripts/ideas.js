@@ -10,6 +10,13 @@ $(document).ready(function() {
     $('body').on('click', 'a.delete-idea', deleteIdea);
     $('body').on('click', 'a.thumbs-up', thumbsUpIdea);
     $('body').on('click', 'a.thumbs-down', thumbsDownIdea);
+
+    $('.editable').on('click', function() {
+        if(event.keyCode == 13) {
+        event.preventDefault();
+            console.log('it is editable')
+        }
+    })
 });
 
 function thumbsUpIdea(event) {
@@ -76,6 +83,7 @@ function CreateIdea(){
 }
 
 function displayAllIdeas(){
+    debugger;
     var target = $('.idea-list');
     $.getJSON('/api/v1/ideas.json', function(ideas) {
         var sorted = $(ideas).sort(function(a, b){
@@ -92,15 +100,15 @@ function renderIdea(idea){
     $('.idea-list')
     .prepend('<div class=ideas id='
             + idea.id
-            + '><p><h4>'
+            + '><h4 class=editable contentEditable=true>'
             + idea.title
-            + '</h4></p><p><h4>'
+            + '</h4><h4 class=editable contentEditable=true>'
             + idea.body
-            + '</h4></p><p><h4 class=quality id='
+            + '</h4><h4 class=quality id='
             + idea.quality
             + '>'
             + ideaQuality[idea.quality]
-            + '</h4></p><a class=delete-idea href=#>Delete</a>'
+            + '</h4><a class=delete-idea href=#>Delete</a>'
             + '<a class=thumbs-up href=#><img src=https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBJrRjKqgwEwEekl1BXhAOsbNqcrJ8TeWlne71cdIIEqQ9lcEmvA alt=thumbs up id=up-vote style=width:20px;heigth:20px;></a>'
             + '<a class=thumbs-down href=#><img src=https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSkv6tro4-yZk3dKpYCoLLnnIKUMbnMI7IaVf2n0GHrf9uCksul alt=thumbs down id=down-vote style=width:20px;heigth:20px;></a></div>'
            );

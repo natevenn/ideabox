@@ -13,6 +13,10 @@ gem 'rspec-rails'
 gem 'responders'
 
 group :development, :test do
+  gem 'capybara'
+  gem 'selenium-webdriver', '~> 2.53'
+  gem 'launchy'
+  gem "database_cleaner"
   gem 'byebug'
 end
 
