@@ -9,6 +9,10 @@ class Api::V1::IdeasController < ApplicationController
     respond_with Idea.create(idea_params), location: nil
   end
 
+  def update
+    respond_with Idea.update(params[:id], quality: params[:quality])
+  end
+
   def destroy
     respond_with Idea.destroy(params[:id])
   end
