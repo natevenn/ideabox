@@ -1,31 +1,28 @@
-function editTitle(){
+function editText(){
     thisElement = $(this)
     $(this).keypress(function(event) {
         if(event.keyCode === 13) {
             event.preventDefault()
-            var thisElement = $(this)
+            var classAttr = thisElement.attr('class')
+            var newText = thisElement.text()
+            var ideaId   = thisElement.parents().attr('id')
+            var params = setParams(classAttr, newText)
+            if(classAttr === 'body') {
+                renderEditedBody(thisElement, newText)
+            }
             toggleContentEditableFalse(thisElement)
-            var newTitle = $(this).text()
-            var ideaId   = $(this).parents().attr('id')
-            var params   = { idea: { title: newTitle } }
             updateIdeasTable(ideaId, params)
         }
     }).then(toggleContentEditableTrue(thisElement))
 }
 
-function editBody() {
-    thisElement = $(this)
-    $(this).keypress(function(event) {
-        if(event.keyCode == 13) {
-            event.preventDefault()
-            var thisElement = $(this)
-            toggleContentEditableFalse(thisElement)
-            var newBody = $(this).text()
-            var ideaId   = $(this).parents().attr('id')
-            var params   = { idea: { body: newBody } }
-            updateIdeasTable(ideaId, params)
-        }
-    }).then(toggleContentEditableTrue(thisElement))
+function setParams(classAttr, newText) {
+    return (classAttr === 'title') ?
+        {idea: {title: newText}} : {idea: {body: newText}}
+}
+
+function renderEditedBody(thisElement, text) {
+    $(thisElement).text(truncateBody(text))
 }
 
 function toggleContentEditableFalse() {
