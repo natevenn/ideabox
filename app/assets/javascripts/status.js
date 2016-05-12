@@ -22,7 +22,7 @@ function thumbsDownIdea(event) {
 
 function changeQuality(oldQuality, vote) {
     if(vote === "thumbs-up") {
-        return (oldQuality < 3) ?  parseInt(oldQuality) + 1 : oldQuality
+        return (oldQuality < 2) ?  parseInt(oldQuality) + 1 : oldQuality
     } else {
         return (oldQuality > 0) ? parseInt(oldQuality) - 1 : oldQuality
     }

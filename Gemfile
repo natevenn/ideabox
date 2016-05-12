@@ -18,6 +18,8 @@ group :development, :test do
   gem 'launchy'
   gem "database_cleaner"
   gem 'byebug'
+  gem 'teaspoon'
+  gem 'teaspoon-mocha'
 end
 
 group :development do
