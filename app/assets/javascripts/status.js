@@ -29,5 +29,5 @@ function changeQuality(oldQuality, vote) {
 }
 
 function renderQuality(ideaId, newQuality) {
-    $('#' + ideaId).children('.quality').attr('id', newQuality).text(ideaQuality[newQuality])
+  $('#' + ideaId).children('.quality').attr('id', newQuality).text(ideaQuality[newQuality])
 }

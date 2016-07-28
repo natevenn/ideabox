@@ -10,8 +10,8 @@ class Api::V1::IdeasController < ApplicationController
   end
 
   def update
-    idea = Idea.find(params[:id])
-    respond_with idea.update(idea_params)
+    link = Link.find(params[:id])
+    respond_with link.update(idea_params)
   end
 
   def destroy
