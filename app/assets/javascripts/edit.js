@@ -1,6 +1,6 @@
 function editText(){
     thisElement = $(this)
-    $(this).keypress(function(event) {
+    thisElement.keypress(function(event) {
         if(event.keyCode === 13) {
             event.preventDefault()
             var classAttr = thisElement.attr('class')

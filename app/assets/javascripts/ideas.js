@@ -1,14 +1,19 @@
 $(document).ready(function() {
+    var $body = $('body');
+
     fetchAllIdeas();
+
     showSearchedIdeas();
+
     $('.save-btn').click(function() {
         CreateIdea();
     })
-    $('body').on('click', 'a.delete-idea', deleteIdea);
-    $('body').on('click', 'a.thumbs-up', thumbsUpIdea);
-    $('body').on('click', 'a.thumbs-down', thumbsDownIdea);
-    $('body').on('click', '.ideas .body', editText);
-    $('body').on('click', '.ideas .title', editText);
+
+    $body.on('click', 'a.delete-idea', deleteIdea);
+    $body.on('click', 'a.thumbs-up', thumbsUpIdea);
+    $body.on('click', 'a.thumbs-down', thumbsDownIdea);
+    $body.on('click', '.ideas .body', editText);
+    $body.on('click', '.ideas .title', editText);
 });
 
 function updateIdeasTable(ideaId, params){
